@@ -1,7 +1,7 @@
 import hashlib, logging, random, time
 from datetime import datetime
 
-
+os.makedirs("logs", exist_ok=True)
 logging.basicConfig(filename="logs/"+(datetime.now().strftime('-%Y-%m-%d-%H-%M-%S'))+".log", encoding='utf-8', level=logging.DEBUG,format='%(levelname)s:%(message)s')
 
 
