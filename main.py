@@ -1,4 +1,4 @@
-import hashlib, logging, random, time
+import hashlib, logging, random, time, os
 from datetime import datetime
 
 os.makedirs("logs", exist_ok=True)
@@ -34,7 +34,7 @@ def hasheur_random(lst : list):
             mp_hash.append((sha512(i)))
     return mp_hash
 
-class BruteForce:
+class DictionnaireAttaque:
     def __init__(self, target, lst_pwd: str, lst_pwd_decrypter)-> None :
         self.Target = target # mot de passe chiffre
         self.Len_Target = len(self.Target) if type(self.Target) == str else 0  #taille du mp
@@ -59,7 +59,7 @@ class BruteForce:
         except:
             print("Erreur, chemin de fichier incorrect ! ")
 
-    def Force_Md5(self):
+    def Dictionnaire_Md5(self):
         """Chiffre et compare un mot de passe clair en MD5, maj la variable __DecryptedTarget ou renvoie False"""
         for index in self.PassWord_List:
             if md5(index) == self.Target:
@@ -67,7 +67,7 @@ class BruteForce:
 
         return False
 
-    def Force_Sha1(self):
+    def Dictionnaire_Sha1(self):
         """Chiffre et compare un mot de passe clair en SHA1, maj la variable __DecryptedTarget ou renvoie False"""
         for index in self.PassWord_List:
             if sha1(index) == self.Target:
@@ -75,7 +75,7 @@ class BruteForce:
 
         return False
 
-    def Force_Sha256(self):
+    def Dictionnaire_Sha256(self):
         """Chiffre et compare un mot de passe clair en SHA256, maj la variable __DecryptedTarget ou renvoie False"""
         for index in self.PassWord_List:
             if sha256(index) == self.Target:
@@ -83,7 +83,7 @@ class BruteForce:
 
         return False
 
-    def Force_Sha512(self):
+    def Dictionnaire_Sha512(self):
         """Chiffre et compare un mot de passe clair en SHA512, maj la variable __DecryptedTarget ou renvoie False"""
         for index in self.PassWord_List:
             if sha512(index) == self.Target:
@@ -93,10 +93,10 @@ class BruteForce:
 
     def dechiffrement(self):
         logging.info(f"Dechiffrement en cours hash : {self.Target}")
-        self.Force_Md5()
-        self.Force_Sha1()
-        self.Force_Sha256()
-        self.Force_Sha512()
+        self.Dictionnaire_Md5()
+        self.Dictionnaire_Sha1()
+        self.Dictionnaire_Sha256()
+        self.Dictionnaire_Sha512()
 
     def dechiffrement_liste(self):
         cpt = 0
@@ -133,7 +133,7 @@ class BruteForce:
 # 17b1afb6aa2090ab45f60f213766f2b4a3cb7e42a7c0b358de67acb04e3152dfc4790eb3185e7c0d821bcf73d771da150d8753d1201bde196577aac1dee29d95
 # 6af526e3499685bc8b78b834092d0672676c07ab
 
-Test = BruteForce(
+Test = DictionnaireAttaque(
     "6af526e3499685bc8b78b834092d0672676c07ab",
     'password.lst', None)
 Liste_pwd = []
@@ -143,5 +143,14 @@ with open('password.lst', 'r') as files:
         Liste_pwd.append(i[:-1])
 Liste_pwd = hasheur_random(Liste_pwd)
 
-Test_liste = BruteForce(None, 'password.lst',Liste_pwd)
+Test_liste = DictionnaireAttaque(None, 'password.lst', Liste_pwd)
 Test_liste.dechiffrement_liste()
+
+class AttaqueBruteForce:
+    def __init__(self):
+        self.caracteres = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ',', '?', ';', '.', ':', '/', '!', '§', 'ù', '%', '*', 'µ', '$', '£', '^', '¨', '&', 'é', '~', '#', "'", '(', '[', '-', '|', 'è', '`', '_', '\\', 'ç', '^', 'à', '@', ')', ']', '°', '+', '=', '}','"']
+
+    def Attaque_Brute_Force(self,word,length):
+        if length <= 5:
+            for letter in self.caracteres:
+                if password
