@@ -1,12 +1,13 @@
 from tkinter import *
 import  tkinter.font as font
-from ripper import *
+from hasheur import *
 #Fenetre
-x = 1280
-y = 720
+x = 1920
+y = 1080
 root = Tk()
 root.geometry(str(x)+'x'+str(y))
-root.title('Ripper')
+root.title('Hasheur')
+root.iconbitmap('application.ico')
 MainMenu = Menu(root)
 
 #Fonts
@@ -18,7 +19,7 @@ def exit():
 
 #MainMenu
 first = Menu(MainMenu)
-first.add_radiobutton(label = "Quitter", command=(exit))
+first.add_radiobutton(label = "Quitter", command=(exit)) # Quitter l'application
 MainMenu.add_cascade(label = "Paramètres", menu=first)
 
 #--------------------------------------------------CHIFFREMENT-------------------------------------------------------
@@ -44,9 +45,11 @@ R4 = Radiobutton(root, text ="SHA512", variable = var, value = 4, command = (sel
 R4.grid(row = 34, column= 1)
 
 def clear():
+    """supprime les champs de la zone chiffrement"""
     txt_clair.delete(1.0,END)
     txt_encoder.delete(1.0,END)
 def Encodage():
+    """encode les informations entrer dans le champ et les renvoies"""
     if selection == 0:
         clear()
         txt_clair.insert(INSERT,"ERREUR ! Veuillez cocher une case ")
@@ -94,6 +97,7 @@ Message_Dechiffrement.grid(row = 20, column= 2,padx=15,pady=15)
 
 Demo_check = IntVar()
 def Launch_Demo_Dictionnaire():
+    """Enchiffre le fichier password.lst puis le déchiffre a par partir de ce meme fichier"""
     Demo = DictionnaireAttaque("6af526e3499685bc8b78b834092d0672676c07ab", 'password.lst', None)
     Liste_pwd = []
     with open('password.lst', 'r') as files:
@@ -122,10 +126,13 @@ def clear_dechiffrement_dictionnaire():
     Mp_hash.delete(1.0,END)
     Area_Log.delete(1.0,END)
 def Dechiffrement_dictionnaire():
-     Txt_a_decoder = Mp_hash.get(1.0,END).rstrip()
-     Dechiffrement_Dico = DictionnaireAttaque(Txt_a_decoder,"password.lst",None)
-     Dechiffrement_Dico.dechiffrement()
-     Area_Log.insert(INSERT,"\n"+Dechiffrement_Dico.afficher())
+    if Mp_hash.get(1.0, END).rstrip() == "":
+        Area_Log.insert(INSERT,"\nErreur, aucun mot de passe ")
+    else:
+        txt_a_decoder = Mp_hash.get(1.0,END).rstrip()
+        dechiffrement_dico = DictionnaireAttaque(txt_a_decoder,"password.lst",None)
+        dechiffrement_dico.dechiffrement()
+        Area_Log.insert(INSERT,"\n"+dechiffrement_dico.afficher())
 
 Mp_hash = Text(root, height=2, width=75)
 Mp_hash.grid(row=32, column=2,padx=15,pady=15)
