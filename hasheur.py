@@ -135,12 +135,24 @@ class DictionnaireAttaque:
 
 
 
-"""class AttaqueBruteForce:
-    def __init__(self):
-        self.caracteres = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ',', '?', ';', '.', ':', '/', '!', '§', 'ù', '%', '*', 'µ', '$', '£', '^', '¨', '&', 'é', '~', '#', "'", '(', '[', '-', '|', 'è', '`', '_', '\\', 'ç', '^', 'à', '@', ')', ']', '°', '+', '=', '}','"']
+class AttaqueBruteForce:
+    def __init__(self, password):
+        self.caracteres = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+                           'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z','0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ',', '?', ';', '.', ':', '/', '!', '§', 'ù', '%', '*',
+                           'µ', '$', '£', '^', '¨', '&', 'é', '~', '#', "'", '(', '[', '-', '|', 'è', '`', '_', '\\', 'ç', '^', 'à', '@', ')', ']', '°', '+', '=', '}','"']
+        self.password = password
 
-    def Attaque_Brute_Force(self,word,length):
-        if length <= 5:
-            for letter in self.caracteres:
-                if password"""
+caracteres = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+
+def Brute_Force( word, longueur ):
+    if longueur <= 5:
+        for letter in caracteres:
+            if password == word+letter:
+                print(f"Mdp : {word + letter}")
+            else:
+                #print(word + letter)
+                Brute_Force(word+letter,longueur +1)
+password = "guie"
+Brute_Force('',1)
+
 
