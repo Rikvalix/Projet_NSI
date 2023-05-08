@@ -115,7 +115,6 @@ class DictionnaireAttaque:
                 self.afficher()
 
                 cpt += 1
-
         except TypeError:
             logging.warning("dechiffrement_liste erreur, utilisez dechiffrement()")
             print("dechiffrement_liste erreur, utilisez dechiffrement()")
