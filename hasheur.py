@@ -1,8 +1,8 @@
 import hashlib, logging, random, time, os
 from datetime import datetime
 
-os.makedirs("logs", exist_ok=True)
-logging.basicConfig(filename="logs/"+(datetime.now().strftime('-%Y-%m-%d-%H-%M-%S'))+".log", encoding='utf-8', level=logging.DEBUG,format='%(levelname)s:%(message)s')
+os.makedirs("logs", exist_ok=True) # verifie si le dossier logs existe sinon le creer 
+logging.basicConfig(filename="logs/"+(datetime.now().strftime('-%Y-%m-%d-%H-%M-%S'))+".log", encoding='utf-8', level=logging.DEBUG,format='%(levelname)s:%(message)s') # logging de la session
 
 
 def md5(string: str):
@@ -40,7 +40,16 @@ def hasheur_random(lst : list):
     return mp_hash
 
 class DictionnaireAttaque:
-    def __init__(self, target, lst_pwd: str, lst_pwd_decrypter)-> None :
+    """Ensemble de fonctions des attaques de dictionnaire
+    """
+    def __init__(self, target : str, lst_pwd: str, lst_pwd_decrypter) -> None :
+        """Constructeur des variables de la classe DictionnaireAttaque
+
+        Args:
+            target (str): Mot de passe chiffre
+            lst_pwd (str): Liste des mots de passe en clair
+            lst_pwd_decrypter (list): Liste des mots de passe chiffrer 
+        """
         self.Target = target # mot de passe chiffre
         self.Len_Target = len(self.Target) if type(self.Target) == str else 0  #taille du mp
         self.PassWord_List = [] # liste des mots de passes possibles en clair
@@ -97,6 +106,9 @@ class DictionnaireAttaque:
         return False
 
     def dechiffrement(self):
+        """
+        Tentative de dechiffrer le mot de passe en essayant les differents encodage
+        """
         logging.info(f"Dechiffrement en cours hash : {self.Target}")
         self.Dictionnaire_Md5()
         self.Dictionnaire_Sha1()
@@ -141,18 +153,18 @@ class AttaqueBruteForce:
                            'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z','0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ',', '?', ';', '.', ':', '/', '!', '§', 'ù', '%', '*',
                            'µ', '$', '£', '^', '¨', '&', 'é', '~', '#', "'", '(', '[', '-', '|', 'è', '`', '_', '\\', 'ç', '^', 'à', '@', ')', ']', '°', '+', '=', '}','"']
         self.password = password
+        self.caracteres = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 
-caracteres = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 
-def Brute_Force( word, longueur ):
-    if longueur <= 5:
-        for letter in caracteres:
-            if password == word+letter:
-                print(f"Mdp : {word + letter}")
-            else:
-                #print(word + letter)
-                Brute_Force(word+letter,longueur +1)
-password = "guie"
-Brute_Force('',1)
+    def Brute_Force( self,word, longueur ):
+        if longueur <= 5:
+            for letter in self.caracteres:
+                if self.password == word+letter:
+                    print(f"Mdp : {word + letter}")
+                else:
+                    #print(word + letter)
+                    self.Brute_Force(word+letter,longueur +1)
+
+
 
 
