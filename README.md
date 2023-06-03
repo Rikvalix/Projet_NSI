@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Documentation - Projet NSI</title>
+    
     <link rel="stylesheet" type = "text/css" media="screen" href="documentations/assets/style.css">
 </head>
 
