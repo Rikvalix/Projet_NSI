@@ -39,29 +39,6 @@ def Encodage():
         txt_encoder.insert(INSERT,texte_encoder)
 
 
-def Launch_Demo_Dictionnaire():
-    """Enchiffre le fichier password.lst puis le déchiffre a par partir de ce meme fichier"""
-    liste_pwd = []
-    with open('password2.lst', 'r') as files:
-        for i in files:
-            liste_pwd.append(i[:-1])
-    liste_pwd = hasheur_random(liste_pwd)
-    test_liste = DictionnaireAttaque(None, 'password2.lst', liste_pwd)
-    for i in liste_pwd:
-        test_liste.Target = i
-        test_liste.dechiffrement()
-        Area_Log.insert(INSERT, "\n"+test_liste.afficher())
-
-def Demo_Dictionaire():
-    """ Lance la démo de l'attaque dictionnaire"""
-    if Demo_check.get() == 1:
-        Area_Log.insert(INSERT, "\nMode Demo ACTIVE")
-        Launch_Demo_Dictionnaire()
-    else:
-        Area_Log.insert(INSERT, "\nMode Demo DESACTIVE")
-
-
-
 
 def clear_dechiffrement_dictionnaire():
     """ Clear le texte des deux consoles """
@@ -138,12 +115,9 @@ Message_Dechiffrement = Label(root, text = "Veuillez verifier que votre fichier 
 Message_Dechiffrement.grid(row = 20, column= 2,padx=15,pady=15)
 
 
-Demo_check = IntVar()
-R_demo_active = Radiobutton(root, text = "Mode Démo ACTIVE", variable= Demo_check, value = 1, command = (Demo_Dictionaire))
-R_demo_active.grid(row = 25, column=2,padx=15,pady=15)
-R_demo_desactive = Radiobutton(root, text = "Mode Démo DESACTIVE", variable = Demo_check, value = 0, command=(Demo_Dictionaire))
 
-R_demo_desactive.grid(row = 26, column=2,padx=15,pady=15)
+
+
 Mp_hash = Text(root, height=2, width=75)
 Mp_hash.grid(row=27, column=2,padx=15,pady=15)
 

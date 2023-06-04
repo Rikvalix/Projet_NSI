@@ -1,0 +1,2 @@
+Utilisation des mots de passes les + utilisés  et ajout de chiffre derriere et caractère spéciaux 
+ex : password1234 - password123*
