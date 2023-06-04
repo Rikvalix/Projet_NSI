@@ -1,16 +1,16 @@
 from hasheur import *
-from tkinter import filedialog
 print("Ecran start")
 
 
 def attaque_dictionnaire():
+    """ Menu attaque dictionaire"""
     print("1-Demo\n2-Attaque-liste\n3-Attaque-unique\n4-paramètre")
     choix = int(input(">>>"))
     match choix:
         case 1:
             pass
         case 2:
-            pass
+            print("")
         case 3:
             txt_a_decoder = input(">>>").rstrip()
             dechiffrement_dico = DictionnaireAttaque(txt_a_decoder,"password.lst",None)
@@ -27,6 +27,7 @@ def attaque_brute_force():
 
 
 def chiffrement_donnees():
+    """ Menu chiffrement de données"""
     print("Encodage:\n1-SHA1\n2-SHA256\n3-SHA512\n4-MD5")
     choix_endocage = int(input(">>>"))
     match choix_endocage:
@@ -59,5 +60,6 @@ def main():
             chiffrement_donnees()
         case _:
             print("choix incorrect")
+
 
 main()
