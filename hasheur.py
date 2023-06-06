@@ -10,22 +10,50 @@ handler = logging.FileHandler("logs/" + (datetime.now().strftime('-%Y-%m-%d-%H-%
 root_logger.addHandler(handler)
 
 def md5(string: str):
-    """Enchiffrement du mot de passe en md5"""
+    """encryption of the data string in MD5
+
+    Args:
+        string (str): character string that will be encrypted
+
+    Returns:
+        string : returns the encrypted string
+    """
     return hashlib.md5(bytes(string, 'utf-8')).hexdigest()
 
 
 def sha256(string: str):
-    """Enchiffrement du mot de passe en sha256"""
+    """encryption of the data string in SHA256
+
+    Args:
+        string (str): character string that will be encrypted
+
+    Returns:
+        string : returns the encrypted string
+    """
     return hashlib.sha256(bytes(string, 'utf-8')).hexdigest()
 
 
 def sha512(string: str):
-    """Enchiffrement du mot de passe en sha512"""
+    """encryption of the data string in SHA512
+
+    Args:
+        string (str): character string that will be encrypted
+
+    Returns:
+        string : returns the encrypted string
+    """
     return hashlib.sha512(bytes(string, 'utf-8')).hexdigest()
 
 
 def sha1(string: str):
-    """Enchiffrement du mot de passe en sha1"""
+    """encryption of the data string in SHA1
+
+    Args:
+        string (str): character string that will be encrypted
+
+    Returns:
+        string : returns the encrypted string
+    """
     return hashlib.sha1(bytes(string, 'utf-8')).hexdigest()
 
 
@@ -69,17 +97,26 @@ class DictionnaireAttaque:
         logging.info("Started")
         logging.info(f"Fichier {self.PassWord_File} ouvert ")
 
-    def open_files(self):
-        """Ouvre et copie dans la variable Password_List les mots de passes en clairs"""
+    def open_files(self,):
+        """Open files Open files of password and return list with all values of the files, ( undevelopped ) you have to indicate the path, mode is defaut reading
+            encoding value is UTF-8 you cant change it.
+
+            Raises :
+                FileNotFoundError : The path is maybe incorrect 
+        """
         try:
             with open(self.PassWord_File, 'r') as files:
                 for i in files:
                     self.PassWord_List.append(i[:-1])
         except:
-            print("Erreur, chemin de fichier incorrect ! ")
+            raise FileNotFoundError("Error, Path is maybe incorrect")
 
     def Dictionnaire_Md5(self):
-        """Chiffre et compare un mot de passe clair en MD5, maj la variable __DecryptedTarget ou renvoie False"""
+        """Encrypts and compares a plain MD5 password, shift the __DecryptedTarget variable or return False
+
+        Returns:
+            boolean: return status of the function False = end 
+        """
         for index in self.PassWord_List:
             if md5(index) == self.Target:
                 self.__DecryptedTarget = (index, 'MD5', md5(index))
@@ -87,7 +124,13 @@ class DictionnaireAttaque:
         return False
 
     def Dictionnaire_Sha1(self):
-        """Chiffre et compare un mot de passe clair en SHA1, maj la variable __DecryptedTarget ou renvoie False"""
+        """
+        Encrypts and compares a plain SHA1 password, shift the __DecryptedTarget variable or return False
+
+        Returns:
+            boolean: return status of the function False = end 
+        
+        """       
         for index in self.PassWord_List:
             if sha1(index) == self.Target:
                 self.__DecryptedTarget = (index, 'SHA-1', sha1(index))
@@ -95,7 +138,10 @@ class DictionnaireAttaque:
         return False
 
     def Dictionnaire_Sha256(self):
-        """Chiffre et compare un mot de passe clair en SHA256, maj la variable __DecryptedTarget ou renvoie False"""
+        """Encrypts and compares a plain SHA256 password, shift the __DecryptedTarget variable or return False
+
+        Returns:
+            boolean: return status of the function False = end """
         for index in self.PassWord_List:
             if sha256(index) == self.Target:
                 self.__DecryptedTarget = (index, 'SHA-256', sha256(index))
@@ -103,7 +149,10 @@ class DictionnaireAttaque:
         return False
 
     def Dictionnaire_Sha512(self):
-        """Chiffre et compare un mot de passe clair en SHA512, maj la variable __DecryptedTarget ou renvoie False"""
+        """Encrypts and compares a plain SHA512 password, shift the __DecryptedTarget variable or return False
+
+        Returns:
+            boolean: return status of the function False = end """
         for index in self.PassWord_List:
             if sha512(index) == self.Target:
                 self.__DecryptedTarget = (index, 'SHA-512', sha512(index))
@@ -111,8 +160,7 @@ class DictionnaireAttaque:
         return False
 
     def dechiffrement(self):
-        """
-        Tentative de dechiffrer le mot de passe en essayant les differents encodage
+        """Try every string decryption function
         """
         logging.info(f"Dechiffrement en cours hash : {self.Target}")
         self.Dictionnaire_Md5()
@@ -121,7 +169,7 @@ class DictionnaireAttaque:
         self.Dictionnaire_Sha512()
 
     def dechiffrement_liste(self):
-        """ Permet le déchiffrement d'une liste de mot de passe hashé
+        """Try list string decryption function
         """
         cpt = 0
         time_1 = time.time()
@@ -140,13 +188,15 @@ class DictionnaireAttaque:
         print(f"END : {cpt} mot de passes cherché en {chrono} secondes")
 
     def afficher(self):
-        """Affichage des résultats en direct"""
+        """Show results
+
+        Returns:
+            string (str): result
+        """
         if self.__DecryptedTarget is None:
-            # print(f"Le mot de passe {self.Target} n'est soit pas dans la liste ou l'algorithme de chiffrement n'est pas supporté ! ")
             logging.info("brute_force : FAIL ")
             return f"Le mot de passe {self.Target}n'est soit pas dans la liste ou l'algorithme de chiffrement n'est pas supporté ! "
         else:
-            # print(f"Déchiffré : {self.__DecryptedTarget[0]}, encodage : {self.__DecryptedTarget[1]}, hash : {self.__DecryptedTarget[2]}")
             logging.info(
                 f"Déchiffré : {self.__DecryptedTarget[0]}, encodage : {self.__DecryptedTarget[1]}, hash : {self.__DecryptedTarget[2]}")
             return f"Déchiffré : {self.__DecryptedTarget[0]}, encodage : {self.__DecryptedTarget[1]}, hash : {self.__DecryptedTarget[2]}"
